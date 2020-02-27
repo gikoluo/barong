@@ -41,7 +41,8 @@ RUN gem install bundler
 RUN bundle install --jobs=$(nproc) --deployment --binstubs
 
 # Copy the main application.
-COPY --chown=app:app . $APP_HOME
+COPY . $APP_HOME
+RUN chown app:app -r $APP_HOME
 
 # Download MaxMind Country DB
 RUN wget -O ${APP_HOME}/geolite.tar.gz ${MAXMINDDB_LINK} \
