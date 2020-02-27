@@ -35,7 +35,7 @@ WORKDIR $APP_HOME
 
 
 COPY Gemfile Gemfile.lock $APP_HOME/
-RUN chown -r app:app $APP_HOME/Gemfile $APP_HOME/Gemfile.lock
+RUN chown -R app:app $APP_HOME/Gemfile $APP_HOME/Gemfile.lock
 
 USER app
 
@@ -45,7 +45,7 @@ RUN bundle install --jobs=$(nproc) --deployment --binstubs
 
 # Copy the main application.
 COPY . $APP_HOME
-RUN chown -r app:app $APP_HOME
+RUN chown -R app:app $APP_HOME
 
 # Download MaxMind Country DB
 RUN wget -O ${APP_HOME}/geolite.tar.gz ${MAXMINDDB_LINK} \
