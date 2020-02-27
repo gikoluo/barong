@@ -34,8 +34,8 @@ RUN groupadd -r --gid ${GID} app \
 WORKDIR $APP_HOME
 
 
-COPY Gemfile Gemfile.lock $APP_HOME/
-RUN chown -R app:app $APP_HOME/Gemfile $APP_HOME/Gemfile.lock
+COPY Gemfile Gemfile.lock $APP_HOME
+RUN chown -R app:app Gemfile Gemfile.lock
 
 USER app
 
@@ -44,9 +44,13 @@ RUN gem install bundler
 RUN bundle install --jobs=$(nproc) --deployment --binstubs
 
 # Copy the main application.
+
+USER root
 COPY . $APP_HOME
 RUN chown -R app:app $APP_HOME
 
+
+USER app
 # Download MaxMind Country DB
 RUN wget -O ${APP_HOME}/geolite.tar.gz ${MAXMINDDB_LINK} \
       && mkdir -p ${APP_HOME}/geolite \
