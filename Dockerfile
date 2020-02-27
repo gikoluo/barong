@@ -32,9 +32,12 @@ RUN groupadd -r --gid ${GID} app \
       --gid ${GID} --uid ${UID} app
 
 WORKDIR $APP_HOME
-USER app
 
-COPY --chown=app:app Gemfile Gemfile.lock $APP_HOME/
+
+COPY Gemfile Gemfile.lock $APP_HOME/
+RUN chown app:app -r $APP_HOME/Gemfile $APP_HOME/Gemfile.lock
+
+USER app
 
 # Install dependencies
 RUN gem install bundler
