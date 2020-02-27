@@ -34,7 +34,7 @@ RUN groupadd -r --gid ${GID} app \
 WORKDIR $APP_HOME
 
 
-COPY Gemfile Gemfile.lock $APP_HOME
+COPY Gemfile Gemfile.lock $APP_HOME/
 RUN chown -R app:app Gemfile Gemfile.lock
 
 USER app
@@ -47,7 +47,7 @@ RUN bundle install --jobs=$(nproc) --deployment --binstubs
 
 USER root
 COPY . $APP_HOME
-RUN chown -R app:app $APP_HOME
+RUN chown -R app:app $APP_HOME/
 
 
 USER app
